@@ -52,30 +52,22 @@ Node* input_tree(){
     return root;
 }
 
-void level_order(Node * root){
-    if(root == NULL) return;
-    queue <Node*> q;
-    q.push(root);
 
-   while (!q.empty())
-   {
-    // 1. Catch and leave the root;
-    Node* f = q.front();
-    q.pop();
+int level_order(Node * root, int &rootValue){
+    if(root == NULL) return 0;
+    if(root->left || root->right) {
+        rootValue = rootValue + root->value;
+    }
+    level_order(root->left, rootValue);
+    level_order(root->right ,rootValue);
+    return rootValue;
+}
 
-    // 2. Complete all work.
-    cout << f->value << " ";
-
-    // 3. Capture the children
-    if(f->left) q.push(f->left);
-    if(f->right) q.push(f->right);
-   }
-};
-
-
-int main( ) {
+int main(){
     Node * root = input_tree();
-    level_order(root); 
-
-    return 0;
+    if(root == NULL) return 0;
+        int rootValue = 0;
+        level_order(root, rootValue);
+    cout << rootValue << endl;
+   return 0;
 }

@@ -52,30 +52,26 @@ Node* input_tree(){
     return root;
 }
 
-void level_order(Node * root){
+
+void pre_order(Node * root,vector<int> &v){    
+
     if(root == NULL) return;
-    queue <Node*> q;
-    q.push(root);
-
-   while (!q.empty())
-   {
-    // 1. Catch and leave the root;
-    Node* f = q.front();
-    q.pop();
-
-    // 2. Complete all work.
-    cout << f->value << " ";
-
-    // 3. Capture the children
-    if(f->left) q.push(f->left);
-    if(f->right) q.push(f->right);
-   }
-};
+    if(root->left) pre_order(root->left, v);
+    if(root->right) pre_order(root->right, v);
+    if(root->left == NULL && root->right == NULL){
+        v.push_back(root->value);
+    }
+}
 
 
-int main( ) {
+int main(){
     Node * root = input_tree();
-    level_order(root); 
-
+    if(root == NULL) return 0;
+    vector<int> v;
+    pre_order(root, v);
+    sort(v.begin(),v.end(), greater<int>());
+    for(auto it = v.begin(); it < v.end(); it++){
+        cout << *it << " ";
+    }
     return 0;
 }

@@ -52,30 +52,56 @@ Node* input_tree(){
     return root;
 }
 
-void level_order(Node * root){
+void pre_order(Node* root){
     if(root == NULL) return;
-    queue <Node*> q;
-    q.push(root);
+   
+}
 
-   while (!q.empty())
-   {
-    // 1. Catch and leave the root;
-    Node* f = q.front();
-    q.pop();
+void print_left(Node * root){
+    if(root->left){
+        print_left(root->left);
+    }
+    else if(root->right){
+        print_left(root->right);
+    }
+    cout << root->value << " ";
 
-    // 2. Complete all work.
-    cout << f->value << " ";
+}
 
-    // 3. Capture the children
-    if(f->left) q.push(f->left);
-    if(f->right) q.push(f->right);
-   }
-};
+void print_right(Node * root){
+    cout << root->value << " ";
+    if(root->right){
+        print_right(root->right);
+    }
+    else if(root->left){
+        print_right(root->left);
+    }
+}
 
-
-int main( ) {
+int main() {
     Node * root = input_tree();
-    level_order(root); 
+    if(root == NULL) return 0;
 
+    if(root){
+        if(!root->right && !root->left){
+            cout << root->value << " ";
+        }
+        else if(root->left && !root->right)
+        {
+            print_left(root->left);
+            cout << root->value << " ";    
+        }
+        else if(root->right && !root->left)
+        {
+            cout << root->value << " ";
+            print_right(root->right);  
+        }
+        else if(root->left && root->right){
+            print_left(root->left);
+            cout << root->value << " ";
+            print_right(root->right);
+        } 
+    }
     return 0;
 }
+

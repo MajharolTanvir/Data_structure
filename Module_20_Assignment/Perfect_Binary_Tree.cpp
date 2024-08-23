@@ -52,30 +52,33 @@ Node* input_tree(){
     return root;
 }
 
-void level_order(Node * root){
-    if(root == NULL) return;
-    queue <Node*> q;
-    q.push(root);
-
-   while (!q.empty())
-   {
-    // 1. Catch and leave the root;
-    Node* f = q.front();
-    q.pop();
-
-    // 2. Complete all work.
-    cout << f->value << " ";
-
-    // 3. Capture the children
-    if(f->left) q.push(f->left);
-    if(f->right) q.push(f->right);
-   }
-};
+int count(Node * root){
+    if(root == NULL) return 0;
+    int l = count(root->left);
+    int r = count(root->right);
+    return l + r + 1;
+}
 
 
-int main( ) {
+int maxHeight(Node * root){
+    if(root == NULL) return 0;
+    int l = maxHeight(root->left);
+    int r = maxHeight(root->right);
+    return max(l,r)+ 1;
+}
+
+
+int main(){
     Node * root = input_tree();
-    level_order(root); 
+    if(root == NULL) return 0;
+    int heights = maxHeight(root);
+    int depth = pow(2, heights) - 1;
 
-    return 0;
+    if(depth == count(root)) {
+        cout << "YES" << endl;
+    }
+    else {
+        cout << "NO" << endl;
+    }
+   return 0;
 }
